@@ -1,0 +1,34 @@
+{
+  "name": "real-portfolio",
+  "type": "module",
+  "version": "0.0.1",
+  "engines": { "node": ">=22.12.0" },
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "lint:types": "astro check",
+    "test": "npm run test:unit && npm run test:content && npm run test:e2e",
+    "test:unit": "vitest run --dir tests/unit",
+    "test:content": "vitest run --dir tests/content",
+    "test:e2e": "playwright test",
+    "og": "node scripts/make-og.mjs"
+  },
+  "dependencies": {
+    "@astrojs/rss": "^4.0.19",
+    "@astrojs/sitemap": "^3.7.4",
+    "astro": "^7.3.2"
+  },
+  "allowScripts": {
+    "esbuild": true
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.10",
+    "@axe-core/playwright": "^4.13.0",
+    "@lhci/cli": "^0.15.1",
+    "@playwright/test": "^1.63.0",
+    "@resvg/resvg-js": "^2.6.2",
+    "typescript": "^6.0.3",
+    "vitest": "^5.0.0"
+  }
+}

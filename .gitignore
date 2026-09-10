@@ -1,2 +1,8 @@
 /docs
 
+dist/
+node_modules/
+.astro/
+test-results/
+playwright-report/
+.lighthouseci/
