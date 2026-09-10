@@ -2,7 +2,7 @@ import rss from '@astrojs/rss';
 import type { APIContext } from 'astro';
 import { getPublished, sortNotesNewest, sortWork } from '../lib/content';
 import { periodEndYear } from '../lib/dates';
-import { href } from '../lib/href';
+import { feedItems, feedSite } from '../lib/rss-items';
 import { site } from '../data/site';
 
 export async function GET(context: APIContext) {
@@ -12,27 +12,22 @@ export async function GET(context: APIContext) {
     title: `${site.name} — notes and case files`,
     description: 'Platform engineering notes and case files.',
     // `context.site` is the bare origin configured in astro.config.mjs (no base); the channel
-    // <link> must carry the base too, so resolve `href('/')` against it rather than passing the
-    // bare origin straight through.
-    site: new URL(href('/'), context.site).href,
-    items: [
-      ...notes.map((n) => ({
+    // <link> must carry the base too. `feedItems` returns links relative to this (no leading
+    // slash), so they resolve as children of the base rather than replacing it.
+    site: feedSite(import.meta.env.BASE_URL, context.site!),
+    items: feedItems(
+      notes.map((n) => ({
+        id: n.id,
         title: n.data.title,
-        description: n.data.summary,
-        pubDate: n.data.updated ?? n.data.published,
-        // Bare (no `href()`): `site` above already carries the base, and @astrojs/rss resolves
-        // each item link against `site`, so running this through `href()` too would double it.
-        link: `/notes/${n.id}/`,
+        summary: n.data.summary,
+        date: n.data.updated ?? n.data.published,
       })),
-      ...work.map((w) => {
-        const year = periodEndYear(w.data.period);
-        return {
-          title: w.data.title,
-          description: w.data.summary,
-          pubDate: year ? new Date(Date.UTC(year, 0, 1)) : new Date(),
-          link: `/work/${w.id}/`,
-        };
-      }),
-    ],
+      work.map((w) => ({
+        id: w.id,
+        title: w.data.title,
+        summary: w.data.summary,
+        year: periodEndYear(w.data.period),
+      })),
+    ),
   });
 }

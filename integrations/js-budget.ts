@@ -13,7 +13,10 @@ export default function jsBudget({ limitBytes = 5120 }: { limitBytes?: number } 
       'astro:build:done': async ({ dir, logger }) => {
         const totals = await pageJsTotals(fileURLToPath(dir), base);
         const { ok, offenders } = checkBudget(totals, limitBytes);
-        const max = totals.reduce((m, t) => Math.max(m, t.bytes), 0);
+        // Only finite (locally-resolved) byte counts are meaningful here — an external script
+        // is already reported as an offender below via `Infinity`, and letting it through would
+        // make this "largest page" log line print `Infinity B` instead of a real number.
+        const max = totals.reduce((m, t) => (Number.isFinite(t.bytes) ? Math.max(m, t.bytes) : m), 0);
         logger.info(`largest page ships ${max} B of JavaScript (limit ${limitBytes} B)`);
         if (!ok) {
           for (const o of offenders) {
