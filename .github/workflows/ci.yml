@@ -4,17 +4,17 @@ on:
   pull_request:
   push:
     branches: [main]
+  workflow_dispatch:
 
 permissions:
   contents: read
 
-concurrency:
-  group: ci-${{ github.ref }}
-  cancel-in-progress: true
-
 jobs:
   test:
     runs-on: ubuntu-latest
+    concurrency:
+      group: ci-${{ github.ref }}
+      cancel-in-progress: true
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-node@v5
@@ -39,3 +39,29 @@ jobs:
             .lighthouseci
             playwright-report
           retention-days: 14
+
+  # Gated on the test job (controller Ruling I): Pages is only deployed once the strict
+  # `npm run build` (including the replace-guard and principles checks) and the full test
+  # suite above have passed on a push to main.
+  deploy:
+    needs: test
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    concurrency:
+      group: pages
+      cancel-in-progress: true
+    steps:
+      - uses: actions/checkout@v7
+      - name: Install, build, and upload
+        uses: withastro/action@v6
+        with:
+          node-version: 22
+      - id: deployment
+        uses: actions/deploy-pages@v5
