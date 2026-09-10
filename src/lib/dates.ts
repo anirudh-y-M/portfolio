@@ -31,3 +31,9 @@ export function formatMonth(d: Date): string {
 export function jstClock(d: Date = new Date()): string {
   return new Intl.DateTimeFormat('en-GB', { hour: '2-digit', minute: '2-digit', hour12: false, timeZone: TZ }).format(d);
 }
+
+/** Last four-digit year found in a free-form period string, e.g. "2025 – 2026" → 2026; undefined if none. */
+export function periodEndYear(period: string): number | undefined {
+  const years = period.match(/\d{4}/g);
+  return years ? Number(years[years.length - 1]) : undefined;
+}
