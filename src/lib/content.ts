@@ -1,4 +1,4 @@
-import { getCollection, type CollectionEntry, type CollectionKey } from 'astro:content';
+import { getCollection, type CollectionEntry } from 'astro:content';
 
 type Publishable = { draft: boolean; reviewed: boolean };
 

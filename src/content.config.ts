@@ -21,7 +21,7 @@ const work = defineCollection({
       .object({ metric: z.string(), before: z.string().optional(), after: z.string().optional() })
       .optional(),
     stack: z.array(z.string()).max(8),
-    links: z.array(z.object({ label: z.string(), href: z.string().url() })).default([]),
+    links: z.array(z.object({ label: z.string(), href: z.url() })).default([]),
     ...publishable,
   }),
 });
