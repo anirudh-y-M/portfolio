@@ -1,0 +1,33 @@
+---
+import { site } from '../data/site';
+import { href } from '../lib/href';
+interface Props { path: string; }
+const { path } = Astro.props;
+const nav = [
+  { label: 'Work', to: '/work' },
+  { label: 'Notes', to: '/notes' },
+  { label: 'Now', to: '/now' },
+  { label: 'About', to: '/about' },
+];
+const isCurrent = (to: string) => path === to || path.startsWith(`${to}/`);
+---
+<header class="header">
+  <a class="name mono" href={href('/')}>{site.name}</a>
+  <nav aria-label="Primary">
+    <ul>
+      {nav.map((item) => (
+        <li>
+          <a href={href(item.to)} aria-current={isCurrent(item.to) ? 'page' : undefined}>{item.label}</a>
+        </li>
+      ))}
+    </ul>
+  </nav>
+</header>
+
+<style>
+  .header { width: 100%; max-width: var(--measure); margin-inline: auto; display: flex; justify-content: space-between; align-items: baseline; padding-block: 1.5rem; gap: 1rem; flex-wrap: wrap; }
+  .name { color: var(--ink); text-decoration: none; }
+  ul { list-style: none; padding: 0; display: flex; gap: 1.25rem; }
+  nav a { color: var(--muted); text-decoration: none; }
+  nav a:hover, nav a[aria-current="page"] { color: var(--ink); text-decoration: underline; }
+</style>

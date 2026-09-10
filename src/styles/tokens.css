@@ -1,0 +1,40 @@
+:root {
+  color-scheme: light dark;
+
+  --paper: #fbfaf7;
+  --ink: #1a1a1a;
+  --muted: #6b6b66;
+  --rule: #e6e4de;
+  --accent: #0f6b4f;
+  --accent-soft: #0f6b4f22;
+
+  --font-size: 1.0625rem;
+  --leading: 1.6;
+  --ratio: 1.25;
+  --step-1: calc(var(--font-size) * var(--ratio));
+  --step-2: calc(var(--step-1) * var(--ratio));
+  --step-3: calc(var(--step-2) * var(--ratio));
+  --hero: clamp(2rem, 5vw, 3.25rem);
+
+  --measure: 68ch;
+  --gap-section: 6rem;
+  --gap-block: 1.5rem;
+  --gutter: clamp(1rem, 4vw, 2rem);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --paper: #111210;
+    --ink: #e8e6df;
+    --muted: #9a9890;
+    --rule: #2a2b27;
+    --accent: #5fd3a6;
+    --accent-soft: #5fd3a622;
+  }
+}
+
+@media (max-width: 40rem) {
+  :root {
+    --gap-section: 4rem;
+  }
+}
