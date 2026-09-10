@@ -32,11 +32,16 @@ function normalizeBase(base: string): string {
 /**
  * Resolve an absolute script `src` (e.g. "/real-portfolio/_astro/a.js") to a file under `dist`.
  * Astro's build output has no `base` segment on disk (Ruling B) — the base only appears in
- * emitted URLs — so it must be stripped from `src` before joining onto `dist`.
+ * emitted URLs — so it must be stripped from `src` before joining onto `dist`. This is
+ * forward-looking for local `<script src>` files beyond `dist/_astro`; the site currently ships
+ * only the inline status-strip script, so no such `src` is resolved in production today.
  */
 function resolveAbsoluteSrc(dist: string, base: string, src: string): string {
   const normBase = normalizeBase(base);
-  const stripped = normBase !== '/' && src.startsWith(normBase) ? src.slice(normBase.length) : src;
+  // Match the base as a whole path segment, not merely a string prefix, so a short base like
+  // "/re" never matches an unrelated "/real-portfolio/..." src.
+  const stripped =
+    normBase !== '/' && (src === normBase || src.startsWith(`${normBase}/`)) ? src.slice(normBase.length) : src;
   return resolve(dist, `.${stripped}`);
 }
 
