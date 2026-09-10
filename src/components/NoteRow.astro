@@ -1,0 +1,23 @@
+---
+import { href } from '../lib/href';
+import { formatDate } from '../lib/dates';
+interface Props { id: string; title: string; status: 'seed' | 'growing' | 'evergreen'; date: Date }
+const { id, title, status, date } = Astro.props;
+---
+<li class="row">
+  <a href={href(`/notes/${id}`)}>{title}</a>
+  <span class="meta mono muted">
+    <span class={`status status-${status}`}>{status}</span>
+    <time datetime={date.toISOString()}>{formatDate(date)}</time>
+  </span>
+</li>
+
+<style>
+  .row { display: flex; justify-content: space-between; gap: 1rem; padding-block: 0.6rem; border-top: 1px solid var(--rule); flex-wrap: wrap; }
+  .row a { color: var(--ink); text-decoration: none; }
+  .row a:hover { text-decoration: underline; }
+  .meta { display: flex; gap: 1rem; }
+  .status::before { content: '● '; color: var(--rule); }
+  .status-growing::before { color: color-mix(in srgb, var(--accent) 50%, var(--rule)); }
+  .status-evergreen::before { color: var(--accent); }
+</style>

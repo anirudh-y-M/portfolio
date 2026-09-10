@@ -1,0 +1,15 @@
+---
+import { site } from '../data/site';
+---
+<section class="section" id="contact">
+  <h2>Contact</h2>
+  <p>The fastest way to reach me is email. I read everything, and reply to most of it.</p>
+  <p class="cta"><a href={`mailto:${site.email}`}>{site.email}</a></p>
+  <p class="mono muted">
+    <a href={site.github} rel="me">GitHub</a> · <a href={site.linkedin} rel="me">LinkedIn</a>
+  </p>
+</section>
+
+<style>
+  .cta { font-size: var(--step-1); margin-block: 0.75rem; }
+</style>

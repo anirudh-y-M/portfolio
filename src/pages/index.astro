@@ -1,6 +1,58 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import StatusStrip from '../components/StatusStrip.astro';
+import CaseFileCard from '../components/CaseFileCard.astro';
+import Principles from '../components/Principles.astro';
+import NoteRow from '../components/NoteRow.astro';
+import Contact from '../components/Contact.astro';
+import { getPublished, sortWork, sortNotesNewest, latestNow } from '../lib/content';
+import { principles } from '../data/principles';
+import { href } from '../lib/href';
+
+const work = sortWork(await getPublished('work'));
+const featured = work.filter((w) => w.data.featured).slice(0, 3);
+const notes = sortNotesNewest(await getPublished('notes')).slice(0, 3);
+const now = await latestNow();
+const titles = Object.fromEntries(work.map((w) => [w.id, w.data.title]));
+
+// Headline and lede are copy Anirudh chose in the worksheet (Task 4, section A).
+const headline = 'I build the paved road other engineers ship on.';
+const lede = 'Platform engineer on the JP Microservices Platform team at Mercari. Build systems, delivery pipelines, and the quiet work that keeps deploys uneventful.';
 ---
-<BaseLayout title="Home" description="Anirudh Yadav, platform engineer in Tokyo." path="/">
-  <h1>Anirudh Yadav</h1>
+<BaseLayout title="Home" description={lede} path="/">
+  <Hero {headline} {lede}>
+    <StatusStrip headline={now.data.headline} buildTime={new Date()} />
+  </Hero>
+
+  <section class="section" aria-labelledby="work-h">
+    <h2 id="work-h">Selected work</h2>
+    {featured.map((w) => (
+      <CaseFileCard id={w.id} title={w.data.title} summary={w.data.summary} period={w.data.period} outcome={w.data.outcome} />
+    ))}
+    <p class="mono"><a href={href('/work')}>All case files →</a></p>
+  </section>
+
+  <section class="section" aria-labelledby="principles-h">
+    <h2 id="principles-h">How I work</h2>
+    <Principles items={principles} {titles} />
+  </section>
+
+  {notes.length > 0 && (
+    <section class="section" aria-labelledby="notes-h">
+      <h2 id="notes-h">Recent notes</h2>
+      <ul class="notes">
+        {notes.map((n) => (
+          <NoteRow id={n.id} title={n.data.title} status={n.data.status} date={n.data.updated ?? n.data.published} />
+        ))}
+      </ul>
+      <p class="mono"><a href={href('/notes')}>All notes →</a></p>
+    </section>
+  )}
+
+  <Contact />
 </BaseLayout>
+
+<style>
+  .notes { list-style: none; padding: 0; }
+</style>
