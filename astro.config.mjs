@@ -1,6 +1,7 @@
 // @ts-check
 import { defineConfig, fontProviders } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
+import jsBudget from './integrations/js-budget.ts';
 
 // https://astro.build/config
 export default defineConfig({
@@ -8,7 +9,7 @@ export default defineConfig({
   base: '/real-portfolio',
   trailingSlash: 'always',
   compressHTML: true,
-  integrations: [sitemap()],
+  integrations: [sitemap(), jsBudget({ limitBytes: 5120 })],
   fonts: [
     {
       provider: fontProviders.google(),
