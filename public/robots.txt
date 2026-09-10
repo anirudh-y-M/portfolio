@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://anirudh-y-m.github.io/real-portfolio/sitemap-index.xml
