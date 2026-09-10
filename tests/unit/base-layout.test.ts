@@ -22,4 +22,10 @@ test('BaseLayout has skip link, nav, main landmark, and title', async () => {
   expect(html).toContain('aria-current="page"');
   expect(html).toContain('<title>Test — Anirudh Yadav</title>');
   expect(html).toContain('<p>hello</p>');
+  // The JS budget (integrations/js-budget.ts) requires every page to ship
+  // well under 5 KB of JavaScript, which rules out a client-side router.
+  // Navigation transitions come from CSS-only cross-document view
+  // transitions (src/styles/global.css) instead of astro:transitions'
+  // <ClientRouter />, so the layout must not emit any module script.
+  expect(html).not.toMatch(/<script[^>]*type="module"/);
 });

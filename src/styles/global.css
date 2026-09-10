@@ -50,6 +50,17 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outlin
 .prose pre code { background: none; padding: 0; }
 .prose img, .prose svg { max-width: 100%; height: auto; }
 
+/*
+ * Cross-document view transitions, CSS-only. No client-side router: the JS
+ * budget (integrations/js-budget.ts) requires every page to ship well under
+ * 5 KB of JavaScript, which Astro's <ClientRouter /> alone exceeds. This
+ * gives same-site navigations a transition using only the browser's native
+ * cross-document navigation API; `transition:name` in ArticleLayout.astro
+ * still applies per-element view-transition-name styles that this API uses.
+ */
+@view-transition { navigation: auto; }
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+  @view-transition { navigation: none; }
 }
