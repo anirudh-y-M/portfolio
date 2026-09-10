@@ -16,7 +16,21 @@ const notes = sortNotesNewest(await getPublished('notes')).slice(0, 3);
 const now = await latestNow();
 const titles = Object.fromEntries(work.map((w) => [w.id, w.data.title]));
 
-// Headline and lede are copy Anirudh chose in the worksheet (Task 4, section A).
+// Every principle must point at a published case file, or the "How I work"
+// section links to a page that does not exist. `ALLOW_PLACEHOLDERS=1`
+// (`npm run build:draft`) bypasses this while the sample case files are
+// still drafts — see content/WORKSHEET.md section I.
+if (!import.meta.env.DEV && !process.env.ALLOW_PLACEHOLDERS) {
+  const missing = principles.filter((p) => !titles[p.work]).map((p) => p.work);
+  if (missing.length) {
+    throw new Error(
+      `Principles reference unpublished case files: ${missing.join(', ')}. Publish them or change src/data/principles.ts.`,
+    );
+  }
+}
+
+// Headline and lede are drafts; the owner replaces them via the worksheet
+// (content/WORKSHEET.md, section A).
 const headline = 'I build the paved road other engineers ship on.';
 const lede = 'Platform engineer on the JP Microservices Platform team at Mercari. Build systems, delivery pipelines, and the quiet work that keeps deploys uneventful.';
 ---

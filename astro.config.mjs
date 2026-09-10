@@ -2,6 +2,7 @@
 import { defineConfig, fontProviders } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 import jsBudget from './integrations/js-budget.ts';
+import replaceGuard from './integrations/replace-guard.ts';
 
 // https://astro.build/config
 export default defineConfig({
@@ -9,7 +10,7 @@ export default defineConfig({
   base: '/real-portfolio',
   trailingSlash: 'always',
   compressHTML: true,
-  integrations: [sitemap(), jsBudget({ limitBytes: 5120 })],
+  integrations: [sitemap(), jsBudget({ limitBytes: 5120 }), replaceGuard()],
   fonts: [
     {
       provider: fontProviders.google(),

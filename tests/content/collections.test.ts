@@ -48,6 +48,28 @@ describe('notes', () => {
   }
 });
 
+describe('now', () => {
+  for (const f of files('now')) {
+    const md = read('now', f);
+    const fm = frontmatter(md);
+    test(`${f} headline is 80 characters or fewer`, () => {
+      const headline = fm.match(/^headline:\s*"?(.*?)"?\s*$/m)?.[1] ?? '';
+      expect(headline.length).toBeLessThanOrEqual(80);
+    });
+    test(`${f} has a non-empty body`, () => {
+      expect(body(md).trim().length).toBeGreaterThan(0);
+    });
+  }
+  // Skipped: the sample `now` entry intentionally keeps its REPLACE headline
+  // until Task 4 fills in the worksheet answers. Remove `.skip` in Task 4
+  // once the placeholders are replaced.
+  test.skip('now headline has no REPLACE token', () => {
+    for (const f of files('now')) {
+      expect(frontmatter(read('now', f))).not.toMatch(/REPLACE/);
+    }
+  });
+});
+
 describe('principles', () => {
   test('there are exactly five', () => expect(principles).toHaveLength(5));
   test('each points at an existing work file', () => {
