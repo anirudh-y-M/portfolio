@@ -1,0 +1,36 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import NoteRow from '../../components/NoteRow.astro';
+import { getPublished, groupByStatus, sortNotesNewest } from '../../lib/content';
+const notes = sortNotesNewest(await getPublished('notes'));
+const groups = groupByStatus(notes).filter((g) => g.entries.length > 0);
+const blurb: Record<string, string> = {
+  evergreen: 'I would defend these.',
+  growing: 'Used at least twice. Still changing.',
+  seed: 'First thoughts. Read with suspicion.',
+};
+---
+<BaseLayout title="Notes" description="Working notes on platform engineering, with an honest confidence label on each." path="/notes">
+  <header class="head">
+    <h1>Notes</h1>
+    <p class="muted">Short, evolving notes. The label says how much to trust each one.</p>
+  </header>
+  {groups.map((g) => (
+    <section class="group" aria-labelledby={`h-${g.status}`}>
+      <h2 id={`h-${g.status}`} class="mono">{g.status} <span class="muted">— {blurb[g.status]}</span></h2>
+      <ul class="list">
+        {g.entries.map((n) => (
+          <NoteRow id={n.id} title={n.data.title} status={n.data.status} date={n.data.updated ?? n.data.published} />
+        ))}
+      </ul>
+    </section>
+  ))}
+</BaseLayout>
+
+<style>
+  .head { padding-block: clamp(2rem, 6vh, 4rem) 1.5rem; display: grid; gap: 0.75rem; }
+  h1 { font-size: var(--step-3); }
+  .group { margin-block: 2.5rem; }
+  .group h2 { font-size: 1rem; font-weight: 500; margin-bottom: 0.5rem; }
+  .list { list-style: none; padding: 0; }
+</style>
