@@ -1,43 +1,19 @@
-# Astro Starter Kit: Minimal
+# anirudh-y-M.github.io/real-portfolio
 
-```sh
-npm create astro@latest -- --template minimal
-```
+Personal site of Anirudh Yadav, platform engineer in Tokyo.
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+- Static Astro site. No client-side framework. Every page ships under 5 KB of JavaScript, enforced at build time by `integrations/js-budget.ts`.
+- Content lives in `src/content/{work,notes,now}` and is validated by `src/content.config.ts` and `tests/content`.
+- A case file publishes only when `draft: false` and `reviewed: true`.
 
-## 🚀 Project Structure
+## Develop
 
-Inside of your Astro project, you'll see the following folders and files:
+    npm install
+    npm run dev          # drafts visible
+    npm run build        # published entries only; fails if a page exceeds the JS budget
+    npm test             # unit, content lint, Playwright e2e + axe
+    npx lhci autorun     # Lighthouse budgets
 
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
-```
+## Write
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
-
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
-
-Any static assets, like images, can be placed in the `public/` directory.
-
-## 🧞 Commands
-
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+Start from `content/WORKSHEET.md`. Design notes are local, untracked working notes (the `docs/` directory is git-ignored on purpose and not part of this repo) — see `docs/superpowers/specs/2026-09-10-portfolio-design.md` on this machine.
