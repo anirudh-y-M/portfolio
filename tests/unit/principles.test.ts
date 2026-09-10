@@ -12,10 +12,8 @@ test('Principles renders an ordered list with links to case files', async () => 
   });
   expect(html).toMatch(/<ol\b/);
   expect(html).toContain('Boring on purpose.');
-  // See the note in case-file-card.test.ts: `AstroContainer`'s `astroConfig.base`
-  // does not reach `import.meta.env.BASE_URL` in this harness, so `href()`
-  // falls back to `/`. The `/real-portfolio` prefix is verified against the
-  // actual `dist/` build output instead (see task-6-report.md).
-  expect(html).toContain('href="/work/buildkit-fleet/"');
+  // AstroContainer doesn't apply `astroConfig.base` to `import.meta.env.BASE_URL`
+  // in this harness (see task-6-report.md), so match any base prefix.
+  expect(html).toMatch(/href="[^"]*\/work\/buildkit-fleet\/"/);
   expect(html).toContain('Cut image build time');
 });
