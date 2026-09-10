@@ -1,0 +1,27 @@
+---
+import { site } from '../data/site';
+import { jstClock } from '../lib/dates';
+interface Props { headline: string; buildTime: Date }
+const { headline, buildTime } = Astro.props;
+const time = jstClock(buildTime);
+---
+<p class="status mono" aria-label="Current status">
+  <span class="dot" aria-hidden="true"></span>
+  <span>{site.role}</span>
+  <span class="sep" aria-hidden="true">·</span>
+  <span>{site.org}, {site.city}</span>
+  <span class="sep" aria-hidden="true">·</span>
+  <time id="jst" datetime={buildTime.toISOString()}>{time}</time> JST
+  <span class="sep" aria-hidden="true">·</span>
+  <span>Now: {headline}</span>
+</p>
+
+<script is:inline>
+(()=>{const e=document.getElementById('jst');if(!e)return;const f=()=>{e.textContent=new Intl.DateTimeFormat('en-GB',{hour:'2-digit',minute:'2-digit',hour12:false,timeZone:'Asia/Tokyo'}).format(new Date())};f();setInterval(f,3e4)})();
+</script>
+
+<style>
+  .status { display: flex; flex-wrap: wrap; gap: 0.5ch; align-items: center; color: var(--muted); margin-top: 1.25rem; }
+  .dot { width: 0.55em; height: 0.55em; border-radius: 50%; background: var(--accent); display: inline-block; margin-right: 0.25ch; }
+  .sep { color: var(--rule); }
+</style>
