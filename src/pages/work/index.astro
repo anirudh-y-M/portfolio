@@ -1,0 +1,20 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import CaseFileCard from '../../components/CaseFileCard.astro';
+import { getPublished, sortWork } from '../../lib/content';
+const work = sortWork(await getPublished('work'));
+---
+<BaseLayout title="Work" description="Case files: what was true, what I changed, what it did." path="/work">
+  <header class="head">
+    <h1>Work</h1>
+    <p class="muted">Each case file follows the same shape: context, constraint, decision, outcome, and what I would do differently.</p>
+  </header>
+  {work.map((w) => (
+    <CaseFileCard id={w.id} title={w.data.title} summary={w.data.summary} period={w.data.period} outcome={w.data.outcome} />
+  ))}
+</BaseLayout>
+
+<style>
+  .head { padding-block: clamp(2rem, 6vh, 4rem) 1.5rem; display: grid; gap: 0.75rem; }
+  h1 { font-size: var(--step-3); }
+</style>

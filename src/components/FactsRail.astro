@@ -1,0 +1,32 @@
+---
+interface Props {
+  period: string; org: string; role: string; stack: string[];
+  outcome?: { metric: string; before?: string; after?: string };
+  links: { label: string; href: string }[];
+}
+const { period, org, role, stack, outcome, links } = Astro.props;
+---
+<dl class="facts mono">
+  <dt>Period</dt><dd>{period}</dd>
+  <dt>Org</dt><dd>{org}</dd>
+  <dt>Role</dt><dd>{role}</dd>
+  <dt>Stack</dt><dd>{stack.join(', ')}</dd>
+  {outcome && (
+    <>
+      <dt>{outcome.metric}</dt>
+      <dd>{outcome.before}{outcome.before && outcome.after && ' → '}<strong>{outcome.after}</strong></dd>
+    </>
+  )}
+  {links.length > 0 && (
+    <>
+      <dt>Links</dt>
+      <dd>{links.map((l, i) => (<>{i > 0 && ', '}<a href={l.href} rel="noopener">{l.label}</a></>))}</dd>
+    </>
+  )}
+</dl>
+
+<style>
+  .facts { display: grid; grid-template-columns: max-content 1fr; gap: 0.35rem 1rem; padding: 1rem 0; border-block: 1px solid var(--rule); }
+  dt { color: var(--muted); }
+  dd strong { color: var(--accent); font-weight: 500; }
+</style>

@@ -1,0 +1,27 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import { formatDate } from '../lib/dates';
+interface Props { title: string; description: string; path: string; kicker?: string; date?: Date }
+const { title, description, path, kicker, date } = Astro.props;
+---
+<BaseLayout {title} {description} {path}>
+  <article>
+    <header class="head">
+      {kicker && <p class="mono muted">{kicker}</p>}
+      <h1 transition:name={`title-${path}`}>{title}</h1>
+      <p class="lede muted">{description}</p>
+      {date && <p class="mono muted"><time datetime={date.toISOString()}>{formatDate(date)}</time></p>}
+    </header>
+    <slot name="aside" />
+    <div class="prose">
+      <slot />
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .head { padding-block: clamp(2rem, 6vh, 4rem) 1.5rem; display: grid; gap: 0.75rem; }
+  h1 { font-size: var(--step-3); }
+  .lede { font-size: var(--step-1); }
+  .prose { margin-top: 2rem; margin-bottom: var(--gap-section); }
+</style>

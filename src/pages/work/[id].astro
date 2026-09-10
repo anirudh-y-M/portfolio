@@ -1,0 +1,18 @@
+---
+import { render } from 'astro:content';
+import ArticleLayout from '../../layouts/ArticleLayout.astro';
+import FactsRail from '../../components/FactsRail.astro';
+import { getPublished } from '../../lib/content';
+
+export async function getStaticPaths() {
+  const work = await getPublished('work');
+  return work.map((entry) => ({ params: { id: entry.id }, props: { entry } }));
+}
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const d = entry.data;
+---
+<ArticleLayout title={d.title} description={d.summary} path={`/work/${entry.id}`} kicker="Case file">
+  <FactsRail slot="aside" period={d.period} org={d.org} role={d.role} stack={d.stack} outcome={d.outcome} links={d.links} />
+  <Content />
+</ArticleLayout>
