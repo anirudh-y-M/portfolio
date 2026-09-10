@@ -74,5 +74,18 @@ tests pass and the content publishes:
 - [ ] In `tests/content/collections.test.ts`, change the two `test.skip(` calls to `test(`
       (the "placeholders are filled" test body should become:
       `expect(site.email).not.toMatch(/REPLACE|example\.com/); expect(site.linkedin).not.toMatch(/REPLACE/);`)
+      and also change the `test.skip('now headline has no REPLACE token', ...)` call to `test(`
+- [ ] `npm run build` (strict) fails with a `replace-guard` error until every `REPLACE` token
+      above is gone from `dist/**/*.html` — use `npm run build:draft` (sets `ALLOW_PLACEHOLDERS=1`)
+      to preview the site with placeholders still in it; it warns instead of failing
+- [ ] `npm run build` also fails while any principle in `src/data/principles.ts` points at a
+      case file that is not yet published (`src/pages/index.astro`); `npm run build:draft`
+      bypasses this check too, but the strict build will not pass until every case file a
+      principle points at has `draft: false` and `reviewed: true`
+- [ ] `lighthouserc.cjs`'s URL list is hand-maintained (unlike the Playwright e2e specs, which
+      read `dist/sitemap-0.xml`) — once a case file or note publishes, add its detail URL to
+      `lighthouserc.cjs` by hand
+- [ ] Sentences under 20 words (spec §6) — the About draft currently has two longer ones
 - [ ] Run `npm test` and `npm run build`
+- [ ] Re-run `npm run test:e2e` after filling the About page (axe)
 - [ ] Commit as `content: write case files, notes, now, principles, and bio`

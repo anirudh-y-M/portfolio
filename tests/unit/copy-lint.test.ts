@@ -26,4 +26,7 @@ describe('headingOrderErrors', () => {
   test('ignores H3 and deeper', () => {
     expect(headingOrderErrors(good + '\n### Detail\n')).toEqual([]);
   });
+  test('reports an extra H2 beyond the fifth', () => {
+    expect(headingOrderErrors(good + '\n## Bonus\n')).toEqual(['unexpected extra heading "Bonus"']);
+  });
 });

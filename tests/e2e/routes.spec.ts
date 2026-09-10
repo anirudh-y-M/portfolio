@@ -1,10 +1,31 @@
+import { readFileSync } from 'node:fs';
+import { join } from 'node:path';
 import { expect, test } from '@playwright/test';
 
 // Every route is written with its trailing slash — `trailingSlash: 'always'`
 // means the slashed form is what the built site actually serves (see
 // playwright.config.ts). Paths are relative to `baseURL`, which already
 // carries the `/real-portfolio/` base.
-const routes = ['./', './work/', './notes/', './now/', './about/'];
+const FALLBACK_ROUTES = ['./', './work/', './notes/', './now/', './about/'];
+
+/**
+ * Read the routes to exercise from the built sitemap (`dist/sitemap-0.xml`) rather than a
+ * hardcoded list, so a detail page (e.g. `/work/<id>/`) is picked up automatically once its
+ * content publishes. Falls back to the five static routes if the build hasn't run yet.
+ */
+function sitemapRoutes(): string[] {
+  let xml: string;
+  try {
+    xml = readFileSync(join(process.cwd(), 'dist/sitemap-0.xml'), 'utf8');
+  } catch {
+    return FALLBACK_ROUTES;
+  }
+  const locs = [...xml.matchAll(/<loc>(.*?)<\/loc>/g)].map((m) => m[1]);
+  if (locs.length === 0) return FALLBACK_ROUTES;
+  return locs.map((loc) => `.${new URL(loc).pathname.replace(/^\/real-portfolio/, '')}`);
+}
+
+const routes = sitemapRoutes();
 
 for (const route of routes) {
   test(`${route} renders with one h1 and a skip link`, async ({ page }) => {

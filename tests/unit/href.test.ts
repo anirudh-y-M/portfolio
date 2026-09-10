@@ -17,4 +17,10 @@ describe('href', () => {
   test('is idempotent when a trailing slash is already present', () => {
     expect(href('/work/', '/')).toBe('/work/');
   });
+  test('re-appends a hash fragment after the trailing slash', () => {
+    expect(href('/#contact', '/real-portfolio')).toBe('/real-portfolio/#contact');
+  });
+  test('re-appends a query string after the trailing slash', () => {
+    expect(href('/work?tab=all', '/real-portfolio')).toBe('/real-portfolio/work/?tab=all');
+  });
 });

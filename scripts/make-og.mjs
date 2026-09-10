@@ -1,6 +1,9 @@
 import { Resvg } from '@resvg/resvg-js';
 import { writeFileSync } from 'node:fs';
 
+// The hex values below (paper #fbfaf7, accent #0f6b4f, ink #1a1a1a, muted #6b6b66, rule
+// #e6e4de) mirror the CSS custom properties in src/styles/tokens.css — this script cannot
+// import CSS, so they are duplicated by hand and must be kept in sync manually.
 const name = 'Anirudh Yadav';
 const line1 = 'I build the paved road';
 const line2 = 'other engineers ship on.';

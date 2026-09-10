@@ -72,4 +72,19 @@ describe('pageJsTotals', () => {
 
     expect(totals).toEqual([{ path: 'index.html', bytes: 0 }]);
   });
+
+  test('flags an external script src as an unbudgetable offender', async () => {
+    const tmp = await mkdtemp(join(tmpdir(), 'js-budget-'));
+    dir = tmp;
+    const externalUrl = 'https://cdn.example/x.js';
+    await writeFile(
+      join(tmp, 'index.html'),
+      `<!doctype html><html><head><script src="${externalUrl}"></script></head><body></body></html>`,
+    );
+
+    const [total] = await pageJsTotals(dir, '/real-portfolio');
+
+    expect(total.bytes).toBe(Infinity);
+    expect(total.externals).toContain(externalUrl);
+  });
 });

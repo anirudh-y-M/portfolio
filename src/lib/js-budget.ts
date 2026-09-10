@@ -4,6 +4,14 @@ import { dirname, join, relative, resolve } from 'node:path';
 export interface PageJs {
   path: string;
   bytes: number;
+  /** URLs of any external (`http(s)://` or protocol-relative `//`) `<script src>` on this page. */
+  externals?: string[];
+}
+
+/** An external script's byte cost is unknowable at build time and cannot be budgeted, so it
+ * always counts as an offender. */
+function isExternalSrc(src: string): boolean {
+  return /^(?:https?:)?\/\//.test(src);
 }
 
 export function checkBudget(files: PageJs[], limitBytes: number): { ok: boolean; offenders: PageJs[] } {
@@ -52,21 +60,27 @@ export async function pageJsTotals(dist: string, base = '/'): Promise<PageJs[]> 
   for (const page of pages) {
     const html = await readFile(page, 'utf8');
     let bytes = 0;
+    const externals: string[] = [];
     for (const m of html.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script>/gi)) {
       const attrs = m[1];
       const src = attrs.match(/\bsrc="([^"]+)"/)?.[1];
-      if (src && !/^https?:/.test(src)) {
+      if (src && isExternalSrc(src)) {
+        // An external script's size is unknowable at build time: always flag it rather than
+        // silently treat it as free.
+        bytes += Number.POSITIVE_INFINITY;
+        externals.push(src);
+      } else if (src) {
         const file = src.startsWith('/') ? resolveAbsoluteSrc(dist, base, src) : resolve(dirname(page), src);
         try {
           bytes += (await stat(file)).size;
         } catch {
-          /* external or missing; ignored */
+          /* missing; ignored */
         }
       } else {
         bytes += Buffer.byteLength(m[2], 'utf8');
       }
     }
-    results.push({ path: relative(dist, page), bytes });
+    results.push({ path: relative(dist, page), bytes, ...(externals.length ? { externals } : {}) });
   }
   return results;
 }

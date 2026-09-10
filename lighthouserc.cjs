@@ -14,6 +14,9 @@ module.exports = {
       // foregrounded by default.
       startServerCommand: 'ASTRO_PREVIEW_BACKGROUND=1 npm run preview -- --port 4321',
       startServerReadyPattern: 'localhost:4321',
+      // Detail routes (e.g. /work/<id>/, /notes/<id>/) should be appended here once content
+      // publishes (content/WORKSHEET.md section I) — unlike the Playwright e2e routes, this
+      // list is not sitemap-driven and must be updated by hand.
       url: [
         'http://localhost:4321/real-portfolio/',
         'http://localhost:4321/real-portfolio/work/',

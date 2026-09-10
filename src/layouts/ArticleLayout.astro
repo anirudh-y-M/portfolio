@@ -8,7 +8,7 @@ const { title, description, path, kicker, date } = Astro.props;
   <article>
     <header class="head">
       {kicker && <p class="mono muted">{kicker}</p>}
-      <h1 transition:name={`title-${path}`}>{title}</h1>
+      <h1>{title}</h1>
       <p class="lede muted">{description}</p>
       {date && <p class="mono muted"><time datetime={date.toISOString()}>{formatDate(date)}</time></p>}
     </header>

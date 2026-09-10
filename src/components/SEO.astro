@@ -3,13 +3,15 @@ import { site } from '../data/site';
 import { href } from '../lib/href';
 interface Props { title: string; description: string; path: string; }
 const { title, description, path } = Astro.props;
+const isNotFound = path === '/404';
 const canonical = new URL(href(path), Astro.site);
 const og = new URL(href('/og.png'), Astro.site);
 const fullTitle = path === '/' ? `${site.name} — ${site.role}` : `${title} — ${site.name}`;
 ---
 <title>{fullTitle}</title>
 <meta name="description" content={description} />
-<link rel="canonical" href={canonical} />
+{isNotFound && <meta name="robots" content="noindex" />}
+{!isNotFound && <link rel="canonical" href={canonical} />}
 <meta property="og:type" content="website" />
 <meta property="og:title" content={fullTitle} />
 <meta property="og:description" content={description} />

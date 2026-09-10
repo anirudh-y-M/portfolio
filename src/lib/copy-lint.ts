@@ -15,5 +15,8 @@ export function headingOrderErrors(markdown: string): string[] {
     if (actual === undefined) errors.push(`missing heading "${expected}"`);
     else if (actual !== expected) errors.push(`expected heading ${i + 1} to be "${expected}", found "${actual}"`);
   });
+  for (let i = REQUIRED_HEADINGS.length; i < found.length; i++) {
+    errors.push(`unexpected extra heading "${found[i]}"`);
+  }
   return errors;
 }

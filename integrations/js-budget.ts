@@ -16,7 +16,10 @@ export default function jsBudget({ limitBytes = 5120 }: { limitBytes?: number } 
         const max = totals.reduce((m, t) => Math.max(m, t.bytes), 0);
         logger.info(`largest page ships ${max} B of JavaScript (limit ${limitBytes} B)`);
         if (!ok) {
-          for (const o of offenders) logger.error(`${o.path}: ${o.bytes} B`);
+          for (const o of offenders) {
+            const externals = o.externals?.length ? ` externals: ${o.externals.join(', ')}` : '';
+            logger.error(`${o.path}: ${o.bytes} B${externals}`);
+          }
           throw new Error(`JavaScript budget exceeded on ${offenders.length} page(s)`);
         }
       },

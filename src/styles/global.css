@@ -55,8 +55,7 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outlin
  * budget (integrations/js-budget.ts) requires every page to ship well under
  * 5 KB of JavaScript, which Astro's <ClientRouter /> alone exceeds. This
  * gives same-site navigations a transition using only the browser's native
- * cross-document navigation API; `transition:name` in ArticleLayout.astro
- * still applies per-element view-transition-name styles that this API uses.
+ * cross-document navigation API — no per-element `transition:name` needed.
  */
 @view-transition { navigation: auto; }
 
