@@ -1,0 +1,11 @@
+---
+import { render } from 'astro:content';
+import ArticleLayout from '../layouts/ArticleLayout.astro';
+import { latestNow } from '../lib/content';
+const now = await latestNow();
+const { Content } = await render(now);
+---
+<ArticleLayout title="Now" description={now.data.headline} path="/now" kicker="What I am focused on" date={now.data.updated}>
+  <Content />
+  <p class="mono muted">This is a <a href="https://nownownow.com/about" rel="noopener">now page</a>. It changes about once a season.</p>
+</ArticleLayout>

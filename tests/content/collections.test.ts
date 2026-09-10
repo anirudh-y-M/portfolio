@@ -59,6 +59,16 @@ describe('principles', () => {
   });
 });
 
+describe('about page', () => {
+  // Skipped: `src/pages/about.astro` intentionally keeps the brief's scaffold
+  // REPLACE tokens until Task 4 fills in the worksheet answers. Remove
+  // `.skip` in Task 4 once the placeholders are replaced.
+  test.skip('about page has no REPLACE tokens', () => {
+    const about = readFileSync(join(process.cwd(), 'src/pages/about.astro'), 'utf8');
+    expect(about).not.toMatch(/REPLACE/);
+  });
+});
+
 describe('site data', () => {
   test('email is personal, not a company address', () => {
     expect(site.email).not.toMatch(/@mercari\.com$/i);

@@ -1,0 +1,15 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { href } from '../lib/href';
+---
+<BaseLayout title="Not found" description="That page does not exist." path="/404">
+  <header class="head">
+    <p class="mono muted">404</p>
+    <h1>Nothing here.</h1>
+    <p>The link is stale or mistyped. Try <a href={href('/')}>the front page</a> or <a href={href('/work')}>the case files</a>.</p>
+  </header>
+</BaseLayout>
+
+<style>
+  .head { padding-block: clamp(3rem, 10vh, 6rem); display: grid; gap: 0.75rem; }
+</style>

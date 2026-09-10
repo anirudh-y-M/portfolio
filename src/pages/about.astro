@@ -1,0 +1,45 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { site } from '../data/site';
+---
+<BaseLayout title="About" description="Who I am, what I work on, and how to work with me." path="/about">
+  <header class="head">
+    <h1>About</h1>
+  </header>
+  <div class="prose">
+    <p>
+      I am a platform engineer on the JP Microservices Platform team at Mercari in Tokyo.
+      My job is to make the default way of building and shipping a service also the best way,
+      so that teams spend their attention on their product instead of on their pipeline.
+    </p>
+    <p>
+      Before this I worked on REPLACE (previous role or study), which taught me REPLACE (one lesson you still use).
+    </p>
+    <p>
+      The problems I want more of: build systems that stay fast as a company grows, observability
+      that is correct by default, and security controls people do not need to route around.
+    </p>
+    <p>
+      Outside work I live in Tokyo and REPLACE (one line).
+    </p>
+
+    <h2 id="toolbelt">Toolbelt</h2>
+    <p>
+      Day to day: Go, Kubernetes, Docker and BuildKit, GitHub Actions, Terraform, Datadog, and a lot of shell.
+      Comfortable in TypeScript when the platform needs a UI. Learning: REPLACE.
+    </p>
+
+    <h2 id="working-with-me">Working with me</h2>
+    <p>
+      I write things down first. I prefer a two-line change in a shared template to a new tool,
+      and a measured before-and-after to a demo. If you are hiring for platform or infrastructure
+      work, or you run a team that keeps fighting its CI, <a href={`mailto:${site.email}`}>email me</a>.
+    </p>
+  </div>
+</BaseLayout>
+
+<style>
+  .head { padding-block: clamp(2rem, 6vh, 4rem) 1.5rem; }
+  h1 { font-size: var(--step-3); }
+  .prose { margin-bottom: var(--gap-section); }
+</style>
