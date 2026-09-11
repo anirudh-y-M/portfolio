@@ -5,7 +5,7 @@ import { expect, test } from '@playwright/test';
 // Every route is written with its trailing slash — `trailingSlash: 'always'`
 // means the slashed form is what the built site actually serves (see
 // playwright.config.ts). Paths are relative to `baseURL`, which already
-// carries the `/real-portfolio/` base.
+// carries the `/portfolio/` base.
 const FALLBACK_ROUTES = ['./', './work/', './notes/', './now/', './about/'];
 
 /**
@@ -22,7 +22,7 @@ function sitemapRoutes(): string[] {
   }
   const locs = [...xml.matchAll(/<loc>(.*?)<\/loc>/g)].map((m) => m[1]);
   if (locs.length === 0) return FALLBACK_ROUTES;
-  return locs.map((loc) => `.${new URL(loc).pathname.replace(/^\/real-portfolio/, '')}`);
+  return locs.map((loc) => `.${new URL(loc).pathname.replace(/^\/portfolio/, '')}`);
 }
 
 const routes = sitemapRoutes();

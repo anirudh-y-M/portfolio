@@ -21,13 +21,13 @@ afterEach(() => {
 test('SiteFooter shows commit, build date, budget statement, and source link', async () => {
   process.env.GITHUB_SHA = '0123456789abcdef';
   process.env.GITHUB_SERVER_URL = 'https://github.com';
-  process.env.GITHUB_REPOSITORY = 'anirudh-y-M/real-portfolio';
+  process.env.GITHUB_REPOSITORY = 'anirudh-y-M/portfolio';
   process.env.GITHUB_RUN_ID = '7';
   const c = await AstroContainer.create();
   const html = await c.renderToString(SiteFooter);
   expect(html).toContain('0123456');
-  expect(html).toContain('href="https://github.com/anirudh-y-M/real-portfolio/commit/0123456789abcdef"');
-  expect(html).toContain('href="https://github.com/anirudh-y-M/real-portfolio/actions/runs/7"');
+  expect(html).toContain('href="https://github.com/anirudh-y-M/portfolio/commit/0123456789abcdef"');
+  expect(html).toContain('href="https://github.com/anirudh-y-M/portfolio/actions/runs/7"');
   expect(html).toMatch(/under 5 KB of JavaScript/);
   expect(html).toContain('<footer');
 });

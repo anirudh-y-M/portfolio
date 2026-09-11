@@ -7,7 +7,7 @@ import replaceGuard from './integrations/replace-guard.ts';
 // https://astro.build/config
 export default defineConfig({
   site: 'https://anirudh-y-m.github.io',
-  base: '/real-portfolio',
+  base: '/portfolio',
   trailingSlash: 'always',
   compressHTML: true,
   integrations: [sitemap(), jsBudget({ limitBytes: 5120 }), replaceGuard()],

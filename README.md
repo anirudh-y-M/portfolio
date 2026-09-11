@@ -1,4 +1,4 @@
-# anirudh-y-m.github.io/real-portfolio
+# anirudh-y-m.github.io/portfolio
 
 Personal site of Anirudh Yadav, platform engineer in Tokyo.
 

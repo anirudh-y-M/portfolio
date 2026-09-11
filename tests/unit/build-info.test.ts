@@ -7,11 +7,11 @@ describe('getBuildInfo', () => {
     const info = getBuildInfo({
       GITHUB_SHA: 'abcdef1234567890',
       GITHUB_SERVER_URL: 'https://github.com',
-      GITHUB_REPOSITORY: 'anirudh-y-M/real-portfolio',
+      GITHUB_REPOSITORY: 'anirudh-y-M/portfolio',
       GITHUB_RUN_ID: '42',
     }, now);
     expect(info.shortSha).toBe('abcdef1');
-    expect(info.runUrl).toBe('https://github.com/anirudh-y-M/real-portfolio/actions/runs/42');
+    expect(info.runUrl).toBe('https://github.com/anirudh-y-M/portfolio/actions/runs/42');
     expect(info.builtAt).toEqual(now);
   });
   test('is null-safe locally', () => {

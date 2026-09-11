@@ -19,7 +19,7 @@ function sitemapRoutes(): string[] {
   }
   const locs = [...xml.matchAll(/<loc>(.*?)<\/loc>/g)].map((m) => m[1]);
   if (locs.length === 0) return FALLBACK_ROUTES;
-  return locs.map((loc) => `.${new URL(loc).pathname.replace(/^\/real-portfolio/, '')}`);
+  return locs.map((loc) => `.${new URL(loc).pathname.replace(/^\/portfolio/, '')}`);
 }
 
 const routes = sitemapRoutes();

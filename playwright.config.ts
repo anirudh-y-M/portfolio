@@ -1,11 +1,11 @@
 import { defineConfig, devices } from '@playwright/test';
 
-// The site is served with `trailingSlash: 'always'` under a `/real-portfolio`
-// base path. `astro preview` does not redirect a bare `/real-portfolio` (or
+// The site is served with `trailingSlash: 'always'` under a `/portfolio`
+// base path. `astro preview` does not redirect a bare `/portfolio` (or
 // any route missing its trailing slash) to the slashed form — it 404s with
 // Astro's own generic error page instead of the site's — so every URL below
 // carries its trailing slash to match what the built site actually serves.
-const baseURL = 'http://localhost:4321/real-portfolio/';
+const baseURL = 'http://localhost:4321/portfolio/';
 
 export default defineConfig({
   testDir: 'tests/e2e',

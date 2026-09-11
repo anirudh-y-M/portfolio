@@ -9,5 +9,5 @@ export const site = {
   github: 'https://github.com/anirudh-y-M',
   linkedin: 'https://www.linkedin.com/in/REPLACE_HANDLE',
   url: 'https://anirudh-y-m.github.io',
-  repo: 'https://github.com/anirudh-y-M/real-portfolio',
+  repo: 'https://github.com/anirudh-y-M/portfolio',
 } as const;

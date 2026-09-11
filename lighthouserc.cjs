@@ -18,10 +18,10 @@ module.exports = {
       // publishes (content/WORKSHEET.md section I) — unlike the Playwright e2e routes, this
       // list is not sitemap-driven and must be updated by hand.
       url: [
-        'http://localhost:4321/real-portfolio/',
-        'http://localhost:4321/real-portfolio/work/',
-        'http://localhost:4321/real-portfolio/notes/',
-        'http://localhost:4321/real-portfolio/about/',
+        'http://localhost:4321/portfolio/',
+        'http://localhost:4321/portfolio/work/',
+        'http://localhost:4321/portfolio/notes/',
+        'http://localhost:4321/portfolio/about/',
       ],
       numberOfRuns: 2,
       settings: { preset: 'desktop' },
