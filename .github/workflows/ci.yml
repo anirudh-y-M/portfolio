@@ -47,7 +47,11 @@ jobs:
   # (Settings → Pages → Source: GitHub Actions); on a free plan that needs a public repo.
   deploy:
     needs: test
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    # Also allow a manual dispatch on main. Note: never use "Re-run failed jobs" on a run
+    # whose deploy failed — the retry uploads a second `github-pages` artifact and
+    # actions/deploy-pages then aborts with "Multiple artifacts named github-pages".
+    # Start a fresh run (push or workflow_dispatch) instead.
+    if: github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
     runs-on: ubuntu-latest
     permissions:
       contents: read
